@@ -17,6 +17,8 @@ public class Util {
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "lkhgow08owxz5";
 
+    private static SessionFactory sessionFactory;
+
     public static Connection getConnection() {
         Connection conn = null;
         try {
@@ -27,8 +29,6 @@ public class Util {
         }
         return conn;
     }
-
-    private static SessionFactory sessionFactory;
 
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
