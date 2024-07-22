@@ -30,28 +30,27 @@ public class Util {
 
     private static SessionFactory sessionFactory;
 
-    static {
-        try {
-            Configuration config = new Configuration();
-            config.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-            config.setProperty("hibernate.connection.driver_class", DB_DRIVER);
-            config.setProperty("hibernate.connection.url", DB_URL);
-            config.setProperty("hibernate.connection.username", DB_USER);
-            config.setProperty("hibernate.connection.password", DB_PASSWORD);
-            config.setProperty("hibernate.hbm2ddl.auto", "update");
-
-            config.addAnnotatedClass(User.class);
-
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                    .applySettings(config.getProperties()).build();
-
-            sessionFactory = config.buildSessionFactory(serviceRegistry);
-        } catch (Throwable ex) {
-            ex.printStackTrace();
-        }
-    }
-
     public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            try {
+                Configuration config = new Configuration();
+                config.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
+                config.setProperty("hibernate.connection.driver_class", DB_DRIVER);
+                config.setProperty("hibernate.connection.url", DB_URL);
+                config.setProperty("hibernate.connection.username", DB_USER);
+                config.setProperty("hibernate.connection.password", DB_PASSWORD);
+                config.setProperty("hibernate.hbm2ddl.auto", "update");
+
+                config.addAnnotatedClass(User.class);
+
+                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                        .applySettings(config.getProperties()).build();
+
+                sessionFactory = config.buildSessionFactory(serviceRegistry);
+            } catch (Throwable ex) {
+                ex.printStackTrace();
+            }
+        }
         return sessionFactory;
     }
 
